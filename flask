@@ -1,0 +1,30 @@
+# app.py
+from flask import Flask, render_template, request
+import openai
+
+app = Flask(__name__)
+
+openai.api_key = "YOUR_OPENAI_API_KEY"  # later move to env variable
+
+@app.route("/", methods=["GET", "POST"])
+def home():
+    posts = []
+    if request.method == "POST":
+        topic = request.form["topic"]
+        tone = request.form["tone"]
+        audience = request.form["audience"]
+
+        prompt = f"Generate 3 LinkedIn posts about {topic} in {tone} tone for {audience or 'general professionals'}."
+        response = openai.ChatCompletion.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7
+        )
+
+        output = response["choices"][0]["message"]["content"]
+        posts = output.split("\n\n")
+
+    return render_template("index.html", posts=posts)
+
+if __name__ == "__main__":
+    app.run(debug=True)
