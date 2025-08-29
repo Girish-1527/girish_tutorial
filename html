@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LinkedIn Post Generator</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h1>💼 LinkedIn Post Generator</h1>
+  <form method="POST">
+    <label>Topic:</label>
+    <input type="text" name="topic" required><br><br>
+
+    <label>Tone:</label>
+    <select name="tone">
+      <option>Professional</option>
+      <option>Casual</option>
+      <option>Inspirational</option>
+    </select><br><br>
+
+    <label>Audience (optional):</label>
+    <input type="text" name="audience"><br><br>
+
+    <button type="submit">Generate Posts</button>
+  </form>
+
+  {% if posts %}
+    <h2>Generated Posts</h2>
+    <ul>
+      {% for post in posts %}
+        <li>{{ post }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</body>
+</html>
